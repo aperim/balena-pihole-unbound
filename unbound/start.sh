@@ -17,7 +17,7 @@ fi
 
 if [ ! -s "${IP_ACCESS_CONTROL}" ];
 then
-  IP_ACCESS_CONTROL="127.0.0.1/32"
+  IP_ACCESS_CONTROL="127.0.0.1/32,::1/128"
 fi
 
 if [ ! -s "${PIHOLE_CONFIG}" ];
