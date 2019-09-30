@@ -1,0 +1,37 @@
+---
+version: '2'
+services:
+
+  pihole:
+    container_name: pihole
+    image: pihole/pihole
+    network_mode: host
+    environment:
+      DNS1: 127.0.0.1#5353
+      DNS2: no
+      IPv6: true
+      DNSSEC: true
+      DNS_BOGUS_PRIV: true
+    volumes:
+    - config-pihole:/etc/pihole/
+    - config-dnsmasq:/etc/dnsmasq.d/
+    dns:
+    - "::1"
+    - 127.0.0.1
+    cap_add:
+    - NET_ADMIN
+    restart: unless-stopped
+    entrypoint: ['/bin/bash', '-c', 'echo "bind-interfaces" >> /etc/dnsmasq.conf; /s6-init']
+
+  unbound:
+    container_name: unbound
+    build: "./unbound"
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+    - config-unbound:/opt/unbound/etc/unbound/
+
+volumes:
+  config-pihole:
+  config-dnsmasq:
+  config-unbound:
