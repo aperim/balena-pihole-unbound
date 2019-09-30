@@ -39,10 +39,17 @@ The `pihole` service takes all the standard [environment variables](https://hub.
 ### Unbound
 Unbound will operate with no configuration. This typically won't suit most environments where domains used locally may need to return private IP addresses. This can be managed with `PRIVATE_DOMAINS` (example below).
 The IP restriction only applies to Unbound - it does not change how PiHole answeres queries. This should not normally need to be changed as Unbound is operating on a non standard (`5353`) port. Add IP's here only if you know what you are doing, and need access to the recursive DNS server from elsewhere.
+
+| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+
 |Variable Name|Use|Example|Default|
 |--|--|--|--|
-|`IP_ACCESS_CONTROL`|Comma separated list of IP addresses permitted to access the DNS server.  |`127.0.0.1/32,::1/128,192.168.100.0/24`|`127.0.0.1/32,::1/128`
+|`IP_ACCESS_CONTROL`|Comma separated list of IP addresses permitted to access the DNS server. |`127.0.0.1/32,::1/128,192.168.100.0/24`|`127.0.0.1/32,::1/128`
 | `PRIVATE_DOMAINS` | Comma separated list of domains that can return [RFC1918](https://tools.ietf.org/html/rfc1918) and [RFC4193](https://tools.ietf.org/html/rfc4193) private IP addresses | `example.com,example.org`|[NONE]
+
 ## Operation
 Once you have started the services of your application - you should be able to send DNS queries to the IPv4 or IPv6 address of your device. You can test be using [dig](https://linux.die.net/man/1/dig) and supplying your devices IP address. For example, if I was using a RaspberryPi and it had the address `192.168.100.100` I would check it was working with:
 ```bash
