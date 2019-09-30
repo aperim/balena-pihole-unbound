@@ -1,17 +1,24 @@
 
+
 # Balena Cloud PiHole + Unbound
 
 Private DNS with privacy and advertisment blocking - built for Balena hosted devices.
 ## What is this?
 This work brings together three great tools. [balenaCloud](https://balena-cloud.com) for managing devices (think Raspberry Pi's etc), [Unbound](https://www.nlnetlabs.nl/projects/unbound/about/) (recursive DNS resolver) and [PiHole](https://pi-hole.net/) (advertising and privacy at a network level).
+
 ## Why
 PiHole is great, but it's even greater with Unbound.
 Not having to manage releases across a bunch of devices is great also!
+
 ## Danger
+If you succeed in completing the below - you will have a fully functional recursive DNS server operating. If you were to expose it to the Internet, it could easily be used for [DNS amplification attacks](https://www.cloudflare.com/learning/ddos/dns-amplification-ddos-attack/) - annoying others and potentially seriously degrading your network performance.
+
+Do not expose a device configured in this way directly to the Internet without appropriatly configured firewalls.
 
 ## Getting Started
 This is as simple as it can be. It is assumed that you know how to get around Balena Cloud's interface, how to create an application and how to provision devices.
 If you don't - [start here](https://www.balena.io/os/docs/raspberrypi4-64/getting-started/) and come back to visit once you [grok](https://en.wikipedia.org/wiki/Grok) that.
+
 ## Installation
  1. Create the application in the [balena Cloud dashboard](https://dashboard.balena-cloud.com/apps)
  3. Clone this repository
@@ -27,7 +34,9 @@ git remote add balena <USERNAME>@git.balena-cloud.com:<USERNAME>/<APPLICATION_NA
 git push balena master
 ```
 6. There will now be two services in the dashboard. One is `unbound` the other is `pihole`. Those services can be configured with environment variables (service variables)
+
 ## Configuration
+
 ### PiHole
 The `pihole` service takes all the standard [environment variables](https://hub.docker.com/r/pihole/pihole/). You should configure:
 
@@ -74,6 +83,7 @@ aperim.com.		1800	IN	A	198.49.23.145
 ;; WHEN: Mon Sep 30 14:07:32 AEST 2019
 ;; MSG SIZE  rcvd: 103
 ```
+
 ## Next Steps
 You now need to configure the devices on your network to use your new DNS server.
 A great place to start is the [PiHole documentation](https://docs.pi-hole.net/main/post-install/).
