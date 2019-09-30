@@ -30,20 +30,17 @@ git push balena master
 ## Configuration
 ### PiHole
 The `pihole` service takes all the standard [environment variables](https://hub.docker.com/r/pihole/pihole/). You should configure:
-|Variable Name|Example Content  |
-|--|--|
-|`TZ`|`Australia/Sydney`  |
-| `WEBPASSWORD` | `sUp3r_s#crET!` |
+
+| Variable Name  | Example Content |
+| ------------- | ------------- |
+| `TZ`  | `Australia/Sydney`  |
+| `WEBPASSWORD`  | `sUp3r_s#crET!`  |
 
 **NOTE**: You don't need to override the settings of the other variables. Setting more than the above could break things.
+
 ### Unbound
 Unbound will operate with no configuration. This typically won't suit most environments where domains used locally may need to return private IP addresses. This can be managed with `PRIVATE_DOMAINS` (example below).
 The IP restriction only applies to Unbound - it does not change how PiHole answeres queries. This should not normally need to be changed as Unbound is operating on a non standard (`5353`) port. Add IP's here only if you know what you are doing, and need access to the recursive DNS server from elsewhere.
-
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
 
 |Variable Name|Use|Example|Default|
 |--|--|--|--|
