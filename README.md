@@ -1,9 +1,17 @@
+
 # Balena Cloud PiHole + Unbound
 
-Private DNS with AdBlock built for Balena hosted devices.
+Private DNS with privacy and advertisment blocking - built for Balena hosted devices.
+## What is this?
+This work brings together three great tools. [balenaCloud](https://balena-cloud.com) for managing devices (think Raspberry Pi's etc), [Unbound](https://www.nlnetlabs.nl/projects/unbound/about/) (recursive DNS resolver) and [PiHole](https://pi-hole.net/) (advertising and privacy at a network level).
+## Why
+PiHole is great, but it's even greater with Unbound.
+Not having to manage releases across a bunch of devices is great also!
+## Danger
+
 ## Getting Started
-This is as simple as it can be. Assumed you know how to get around Balena Cloud's interface, how to create an application and provision devices.
-If you don't - [start here](https://www.balena.io/os/docs/raspberrypi4-64/getting-started/) and come back to visit once you grok that.
+This is as simple as it can be. It is assumed that you know how to get around Balena Cloud's interface, how to create an application and how to provision devices.
+If you don't - [start here](https://www.balena.io/os/docs/raspberrypi4-64/getting-started/) and come back to visit once you [grok](https://en.wikipedia.org/wiki/Grok) that.
 ## Installation
  1. Create the application in the [balena Cloud dashboard](https://dashboard.balena-cloud.com/apps)
  3. Clone this repository
@@ -21,13 +29,16 @@ git push balena master
 6. There will now be two services in the dashboard. One is `unbound` the other is `pihole`. Those services can be configured with environment variables (service variables)
 ## Configuration
 ### PiHole
-The `pihole` service takes all the standard [environment variables](https://hub.docker.com/r/pihole/pihole/). You should at the very least configure:
+The `pihole` service takes all the standard [environment variables](https://hub.docker.com/r/pihole/pihole/). You should configure:
 |Variable Name|Example Content  |
 |--|--|
 |`TZ`|`Australia/Sydney`  |
 | `WEBPASSWORD` | `sUp3r_s#crET!` |
+
 **NOTE**: You don't need to override the settings of the other variables. Setting more than the above could break things.
 ### Unbound
+Unbound will operate with no configuration. This typically won't suit most environments where domains used locally may need to return private IP addresses. This can be managed with `PRIVATE_DOMAINS` (example below).
+The IP restriction only applies to Unbound - it does not change how PiHole answeres queries. This should not normally need to be changed as Unbound is operating on a non standard (`5353`) port. Add IP's here only if you know what you are doing, and need access to the recursive DNS server from elsewhere.
 |Variable Name|Use|Example|Default|
 |--|--|--|--|
 |`IP_ACCESS_CONTROL`|Comma separated list of IP addresses permitted to access the DNS server.  |`127.0.0.1/32,::1/128,192.168.100.0/24`|`127.0.0.1/32,::1/128`
@@ -59,3 +70,6 @@ aperim.com.		1800	IN	A	198.49.23.145
 ;; WHEN: Mon Sep 30 14:07:32 AEST 2019
 ;; MSG SIZE  rcvd: 103
 ```
+## Next Steps
+You now need to configure the devices on your network to use your new DNS server.
+A great place to start is the [PiHole documentation](https://docs.pi-hole.net/main/post-install/).
