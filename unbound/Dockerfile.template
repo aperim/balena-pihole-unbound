@@ -8,7 +8,7 @@ SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 RUN addgroup _unbound && adduser -D -H -s /etc -h /dev/null -G _unbound _unbound
 
-RUN apk add --no-cache build-base=0.5-r1 curl=7.66.0-r0 linux-headers=4.19.36-r0 libevent=2.1.10-r0 libevent-dev=2.1.10-r0 expat=2.2.8-r0 expat-dev=2.2.8-r0 openssl=1.1.1d-r0 openssl-dev=1.1.1d-r0 && \
+RUN apk add --no-cache build-base=0.5-r1 curl=7.66.0-r0 linux-headers=4.19.36-r0 libevent=2.1.10-r0 libevent-dev=2.1.10-r0 expat=2.2.8-r0 expat-dev=2.2.8-r0 openssl=1.1.1d-r2 openssl-dev=1.1.1d-r2 && \
 	curl -fsSL https://nlnetlabs.nl/downloads/unbound/unbound-latest.tar.gz -o unbound.tar.gz && \
   curl -fsSL https://www.internic.net/domain/named.root -o root.hints && \
 	tar xzf unbound.tar.gz && \
