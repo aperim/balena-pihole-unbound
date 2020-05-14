@@ -4,7 +4,7 @@ services:
 
   pihole:
     container_name: pihole
-    image: pihole/pihole
+    image: pihole/pihole:v5.0
     network_mode: host
     environment:
       DNS1: 127.0.0.1#5353
@@ -35,3 +35,4 @@ volumes:
   config-pihole:
   config-dnsmasq:
   config-unbound:
+
