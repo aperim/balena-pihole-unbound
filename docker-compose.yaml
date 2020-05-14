@@ -4,7 +4,7 @@ services:
 
   pihole:
     container_name: pihole
-    image: pihole/pihole:beta-v5.0
+    image: pihole/pihole:v5.0
     network_mode: host
     environment:
       DNS1: 127.0.0.1#5353
