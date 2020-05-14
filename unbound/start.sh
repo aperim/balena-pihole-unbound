@@ -35,6 +35,11 @@ then
   PRIVATE_DOMAIN_CONFIG="03-private-domains.conf"
 fi
 
+if [ ! -s "${PRIVATE_ARPA_CONFIG}" ];
+then
+  PRIVATE_ARPA_CONFIG="04-private-arpa.conf"
+fi
+
 # restore the default config files if they do not exist
 if [ ! -f /opt/unbound/etc/unbound/unbound.conf ]
 then
@@ -69,6 +74,25 @@ then
   do
     DOMAIN_NAME="$(printf "${s}" | tr -d '[:space:]')"
     printf "    private-domain: \"$DOMAIN_NAME\"\n" >> "${CONFIG_STORE}/${PRIVATE_DOMAIN_CONFIG}"
+  done
+
+fi
+
+if [ ! -s "${PRIVATE_ARPA}" ] && [ ! -f "${CONFIG_STORE}/${PRIVATE_ARPA_CONFIG}" ];
+then
+  STUB_ZONES="10.in-addr.arpa.,16.172.in-addr.arpa.,17.172.in-addr.arpa.,18.172.in-addr.arpa.,19.172.in-addr.arpa.,20.172.in-addr.arpa.,21.172.in-addr.arpa.,22.172.in-addr.arpa.,23.172.in-addr.arpa.,24.172.in-addr.arpa.,25.172.in-addr.arpa.,26.172.in-addr.arpa.,27.172.in-addr.arpa.,28.172.in-addr.arpa.,29.172.in-addr.arpa.,30.172.in-addr.arpa.,31.172.in-addr.arpa.,32.172.in-addr.arpa. ,168.192.in-addr.arpa.,61.10.in-addr.arpa."
+  touch "${CONFIG_STORE}/${PRIVATE_ARPA_CONFIG}"
+  echo 'c2VydmVyOiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICBsb2NhbC16b25lOiAiMTAuaW4tYWRkci5hcnBhLiIgbm9kZWZhdWx0ICAgIAogICAgICAgIGxvY2FsLXpvbmU6ICIxNi4xNzIuaW4tYWRkci5hcnBhLiIgbm9kZWZhdWx0CiAgICAgICAgbG9jYWwtem9uZTogIjE3LjE3Mi5pbi1hZGRyLmFycGEuIiBub2RlZmF1bHQKICAgICAgICBsb2NhbC16b25lOiAiMTguMTcyLmluLWFkZHIuYXJwYS4iIG5vZGVmYXVsdAogICAgICAgIGxvY2FsLXpvbmU6ICIxOS4xNzIuaW4tYWRkci5hcnBhLiIgbm9kZWZhdWx0CiAgICAgICAgbG9jYWwtem9uZTogIjIwLjE3Mi5pbi1hZGRyLmFycGEuIiBub2RlZmF1bHQKICAgICAgICBsb2NhbC16b25lOiAiMjEuMTcyLmluLWFkZHIuYXJwYS4iIG5vZGVmYXVsdAogICAgICAgIGxvY2FsLXpvbmU6ICIyMi4xNzIuaW4tYWRkci5hcnBhLiIgbm9kZWZhdWx0CiAgICAgICAgbG9jYWwtem9uZTogIjIzLjE3Mi5pbi1hZGRyLmFycGEuIiBub2RlZmF1bHQKICAgICAgICBsb2NhbC16b25lOiAiMjQuMTcyLmluLWFkZHIuYXJwYS4iIG5vZGVmYXVsdAogICAgICAgIGxvY2FsLXpvbmU6ICIyNS4xNzIuaW4tYWRkci5hcnBhLiIgbm9kZWZhdWx0CiAgICAgICAgbG9jYWwtem9uZTogIjI2LjE3Mi5pbi1hZGRyLmFycGEuIiBub2RlZmF1bHQKICAgICAgICBsb2NhbC16b25lOiAiMjcuMTcyLmluLWFkZHIuYXJwYS4iIG5vZGVmYXVsdAogICAgICAgIGxvY2FsLXpvbmU6ICIyOC4xNzIuaW4tYWRkci5hcnBhLiIgbm9kZWZhdWx0CiAgICAgICAgbG9jYWwtem9uZTogIjI5LjE3Mi5pbi1hZGRyLmFycGEuIiBub2RlZmF1bHQKICAgICAgICBsb2NhbC16b25lOiAiMzAuMTcyLmluLWFkZHIuYXJwYS4iIG5vZGVmYXVsdAogICAgICAgIGxvY2FsLXpvbmU6ICIzMS4xNzIuaW4tYWRkci5hcnBhLiIgbm9kZWZhdWx0CiAgICAgICAgbG9jYWwtem9uZTogIjMyLjE3Mi5pbi1hZGRyLmFycGEuIiBub2RlZmF1bHQgCiAgICAgICAgbG9jYWwtem9uZTogIjE2OC4xOTIuaW4tYWRkci5hcnBhLiIgbm9kZWZhdWx0CiAgICAgICAgbG9jYWwtem9uZTogIjYxLjEwLmluLWFkZHIuYXJwYS4iIG5vZGVmYXVsdAogICAgICAgICAgCg==' | base64 -d >> "${CONFIG_STORE}/${PRIVATE_ARPA_CONFIG}"
+
+  for z in $(echo $STUB_ZONES | sed "s/,/ /g")
+  do
+    STUB_ZONE="$(printf "${z}" | tr -d '[:space:]')"
+    printf "stub-zone:\n\tname: \"${STUB_ZONE}\"\n" >> "${CONFIG_STORE}/${PRIVATE_ARPA_CONFIG}"
+	  for s in $(echo $PRIVATE_ARPA | sed "s/,/ /g")
+	  do
+		ARPA_DNS_SERVER="$(printf "${s}" | tr -d '[:space:]')"
+		printf "\tstub-host: \"$ARPA_DNS_SERVER\"\n" >> "${CONFIG_STORE}/${PRIVATE_ARPA_CONFIG}"
+	  done    
   done
 
 fi
