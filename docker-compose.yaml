@@ -8,7 +8,7 @@ services:
     network_mode: host
     environment:
       DNS1: 127.0.0.1#5353
-      DNS2: false
+      DNS2: 127.0.0.1#5353
       IPv6: true
       DNSSEC: true
       DNS_BOGUS_PRIV: true
