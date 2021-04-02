@@ -33,7 +33,7 @@ services:
     network_mode: host
     volumes:
     - config-unbound:/opt/unbound/etc/unbound/
-    
+
 volumes:
   config-pihole: 
   config-dnsmasq: 
