@@ -28,7 +28,7 @@ services:
 
   unbound:
     container_name: unbound
-    build: "./unbound"
+    image: ghcr.io/aperim/unbound:latest
     restart: unless-stopped
     network_mode: host
     volumes:
